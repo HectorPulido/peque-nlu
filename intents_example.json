@@ -1,0 +1,71 @@
+{
+    "intents": {
+        "small_talk": [
+            "hola",
+            "¿Como estas?",
+            "buenos dias",
+            "buenas tardes",
+            "saludos",
+            "que tal?"
+
+        ],
+        "doubts": [
+            "tengo una pregunta",
+            "¿puedes ayudarme?",
+            "¿que puedes hacer?"
+        ],
+        "fun_phrases": [
+            "eres gracioso",
+            "¿conoces algun chiste?",
+            "me gustas",
+            "¿te gusto?",
+            "¿te gustan las personas?",
+            "¿eres parte de la matrix?",
+            "eres adorable",
+            "eres muy inteligente"
+        ],
+        "search": [
+            "¿puedes buscar sobre react?",
+            "¿tienes algun tutorial de Ruby?",
+            "¿sabes algo de rust?",
+            "pasame un tutorial de ionic",
+            "quiero aprender sobre python",
+            "oye, me gustaria aprender sobre javascript"
+        ],
+        "meme": [
+            "¿conoces algun buen meme?",
+            "pasame un meme",
+            "muestrame un meme",
+            "¿tienes algun meme?",
+            "pasa memes",
+            "muestrame algunos memes",
+            "meme"
+        ],
+        "thanks": [
+            "gracias",
+            "te agradezco",
+            "gracias por ayudarme"
+        ]
+    },
+    "entities": {
+        "technology": [
+            "python",
+            "rust",
+            "javascript",
+            "java",
+            "github",
+            "react",
+            "git",
+            "ionic",
+            "ruby",
+            "rust"
+        ],
+        "timing": [
+            "recient",
+            "nuevo",
+            "actual",
+            "moderno",
+            "ultim"
+        ]
+    }
+}
