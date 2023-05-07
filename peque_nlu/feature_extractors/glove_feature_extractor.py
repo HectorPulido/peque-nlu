@@ -1,39 +1,75 @@
-import re
-import gensim.downloader as gd
-from gensim.models.keyedvectors import KeyedVectors
-
+"""
+The GloveFeatureExtractor class module.
+"""
+from peque_nlu.utils import glove_load
 from peque_nlu.feature_extractors import FeatureExtractor
-from peque_nlu.utils import IntentUtils
 
 
-class GloveFeatureExtractor(FeatureExtractor, IntentUtils):
+class GloveFeatureExtractor(FeatureExtractor):
+    """
+    The GloveFeatureExtractor class.
+
+    This class is used to create a glove feature extractor.
+    This works by checking using the glove vectors, to check if there are
+    similarities between the input text and the examples.
+    """
+
     def __init__(self, gensim_model=None):
+        """
+        Initialize the GloveFeatureExtractor.
+
+        :param gensim_model: The gensim model to use.
+            It can be a model name (str) or a KeyedVectors object.
+        :type gensim_model: str or KeyedVectors.
+        """
+
         self.entities = {}
         self.stopwords = None
 
-        if isinstance(gensim_model, str):
-            self.glove_vectors = gd.load(gensim_model)
-        elif isinstance(gensim_model, KeyedVectors):
-            self.glove_vectors = gensim_model
-        else:
-            raise ValueError(
-                "gensim_model must be a model_name (str) or a KeyedVectors object"
-            )
+        self.glove_vectors = glove_load(gensim_model)
 
-    def _check_examples(self, examples):
+    def _check_examples(self, examples) -> list:
+        """
+        Check if the examples are in the glove vectors.
+
+        :param examples: The examples to check.
+        :type examples: list.
+        :return: The examples that are in the glove vectors.
+        :rtype: list.
+        """
+
         for word in examples:
             if not self._word_is_in_glove(word):
                 examples.remove(word)
         return examples
 
-    def _word_is_in_glove(self, word):
+    def _word_is_in_glove(self, word) -> bool:
+        """
+        Check if the word is in the glove vectors.
+
+        :param word: The word to check.
+        :type word: str.
+        :return: True if the word is in the glove vectors, False otherwise.
+        :rtype: bool.
+        """
         return word in self.glove_vectors.key_to_index
 
-    def fit(self, dataset_path, stopwords=None):
-        self.stopwords = stopwords
-        self.entities = self.get_entities(dataset_path)
-
     def get_features(self, text_to_decode, threshold):
+        """
+        Fit the feature extractor.
+
+        :param dataset_path: The path of the dataset.
+        :type dataset_path: str.
+        :param threshold: The threshold to apply.
+        :type threshold: float.
+        :return: The features.
+        :rtype: list.
+
+        example: get_features("hello", 0.5) ->
+            [{"word": "hello", "entity": "greet", "similarities": 1}]
+
+        """
+
         text_to_decode = self.preprocess_input(text_to_decode)
 
         matches = []

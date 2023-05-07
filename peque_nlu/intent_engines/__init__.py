@@ -1,3 +1,6 @@
+"""
+Intent engines package.
+"""
 from peque_nlu.intent_engines.intent_engine import BasicIntentEngine
 from peque_nlu.intent_engines.model_engine import ModelEngine
 from peque_nlu.intent_engines.sgd_engine import SGDIntentEngine

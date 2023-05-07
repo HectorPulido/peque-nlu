@@ -1,17 +1,31 @@
+"""
+The naive feature extractor module.
+"""
 from peque_nlu.feature_extractors import FeatureExtractor
-from peque_nlu.utils import IntentUtils
 
 
-class NaiveFeatureExtractor(FeatureExtractor, IntentUtils):
-    def __init__(self):
-        self.entities = {}
-        self.stopwords = None
+class NaiveFeatureExtractor(FeatureExtractor):
+    """
+    The NaiveFeatureExtractor class.
 
-    def fit(self, dataset_path, stopwords=None):
-        self.stopwords = stopwords
-        self.entities = self.get_entities(dataset_path)
+    This class is used to create a naive feature extractor.
+    This works by checking if the examples are in the input text.
+    """
 
     def get_features(self, text_to_decode, threshold):
+        """
+        Get the features from the input text.
+
+        :param text_to_decode: The input text to decode.
+        :type text_to_decode: str.
+        :param threshold: The threshold to apply.
+        :type threshold: float.
+        :return: The features.
+        :rtype: list.
+
+        example: get_features("hello", 0.5) ->
+            [{"word": "hello", "entity": "greet", "similarities": 1}]
+        """
         text_to_decode = self.preprocess_input(text_to_decode)
 
         matches = []
