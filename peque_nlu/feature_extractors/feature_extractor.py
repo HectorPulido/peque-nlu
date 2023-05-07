@@ -26,7 +26,11 @@ class FeatureExtractor(ABC, IntentUtils):
 
         example: _strip_accents("àéêöhello") -> "aeeohello"
         """
-        text = unicode(text, "utf-8")
+        try:
+            text = unicode(text, "utf-8")
+        except NameError:  # unicode is a default on python 3
+            pass
+
         text = (
             unicodedata.normalize("NFD", text).encode("ascii", "ignore").decode("utf-8")
         )
@@ -66,7 +70,6 @@ class FeatureExtractor(ABC, IntentUtils):
 
         """
 
-    @abstractmethod
     def fit(self, dataset_path, stopwords=None):
         """
         Fit the feature extractor.
