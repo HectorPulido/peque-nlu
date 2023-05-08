@@ -34,7 +34,7 @@ class ModelEngine(BasicIntentEngine):
 
         self.vectorizer = CountVectorizer(
             analyzer="word",
-            tokenizer=self._tokenize,
+            tokenizer=self.tokenize,
             lowercase=True,
             stop_words=self.stopwords,
         )
@@ -61,7 +61,7 @@ class ModelEngine(BasicIntentEngine):
             stemmed.append(stemmer.stem(item))
         return stemmed
 
-    def _tokenize(self, text) -> list:
+    def tokenize(self, text) -> list:
         """
         Tokenize the text.
 
