@@ -39,7 +39,7 @@ jobs:
         pylint $(git ls-files 'peque_nlu/*.py') --fail-under 8
     - name: Check black formatting
       run: |
-        black --check
+        black --check .
     - name: Test with pytest
       run: |
         pytest
