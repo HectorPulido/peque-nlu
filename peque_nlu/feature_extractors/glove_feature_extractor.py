@@ -61,11 +61,14 @@ class GloveFeatureExtractor(FeatureExtractor):
         :param dataset_path: The path of the dataset.
         :type dataset_path: str.
         :param threshold: The threshold to apply.
-        :type threshold: float.
+        :type threshold: float or dict.
         :return: The features.
         :rtype: list.
 
         example: get_features("hello", 0.5) ->
+            [{"word": "hello", "entity": "greet", "similarities": 1}]
+
+        example: get_features("hello", {"greet": 0.5}) ->
             [{"word": "hello", "entity": "greet", "similarities": 1}]
 
         """
@@ -87,7 +90,18 @@ class GloveFeatureExtractor(FeatureExtractor):
 
                 similarity = max(similarities)
 
-                if similarity > threshold:
+                temp_threshold = None
+                if isinstance(threshold, dict):
+                    temp_threshold = threshold.get(entity, 0.5)
+                elif isinstance(threshold, float):
+                    temp_threshold = threshold
+                else:
+                    raise ValueError(
+                        "The threshold must be a float or a dict, "
+                        f"not {type(threshold)}"
+                    )
+
+                if similarity > temp_threshold:
                     matches.append(
                         {"word": word, "entity": entity, "similarities": similarity}
                     )

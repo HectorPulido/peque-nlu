@@ -102,39 +102,39 @@ class ModelIntentClassifier(IntentClassifier, IntentUtils):
         :param texts: The texts to predict.
         :type texts: list.
         :param threshold: The threshold to apply.
-        :type threshold: float.
+        :type threshold: float or dict.
 
         :return: The predictions.
         :rtype: dict.
 
         example: multiple_predict(["hello", "how are you"]) ->
-            {"intends": [{"text": "hello", "intent": "greet", "probability": 0.9},
-                        {"text": "how are you", "intent": "greet", "probability": 0.7}]}
+            [{"text": "hello", "intent": "greet", "probability": 0.9},
+                        {"text": "how are you", "intent": "greet", "probability": 0.7}]
 
         Can also return the features if a feature extractor is provided:
         example: multiple_predict(["hello", "how are you"]) ->
-            {"intends": [{"text": "hello", "intent": "greet", "probability": 0.9,
+            [{"text": "hello", "intent": "greet", "probability": 0.9,
                         "features": [{"word": "hello", "entity": "greet", "similarities": 1}]},
                         {"text": "how are you", "intent": "greet", "probability": 0.7,
                         "features": [{"word": "how", "entity": "greet", "similarities": 1},
                                     {"word": "are", "entity": "greet", "similarities": 1},
-                                    {"word": "you", "entity": "greet", "similarities": 1}]}]}
+                                    {"word": "you", "entity": "greet", "similarities": 1}]}]
 
         """
         intents, probabilities = self.intent_engine.predict(texts)
         results = []
         for intent, probability, text in zip(intents, probabilities, texts):
             results.append({"text": text, "intent": intent, "probability": probability})
-        final = {"intends": results}
-        if self.feature_extractor is None:
-            return final
 
-        for result in final["intends"]:
+        if self.feature_extractor is None:
+            return results
+
+        for result in results:
             result["features"] = self.feature_extractor.get_features(
                 result["text"], threshold
             )
 
-        return final
+        return results
 
     def predict(self, text, threshold=0.2):
         """
@@ -148,4 +148,4 @@ class ModelIntentClassifier(IntentClassifier, IntentUtils):
         :return: The prediction.
         :rtype: dict.
         """
-        return self.multiple_predict([text], threshold)
+        return self.multiple_predict([text], threshold)[0]
