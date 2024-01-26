@@ -35,7 +35,8 @@ Agnostic algorithm: you can use SGD, MLNN, LLMs, Word2Vec, etc.
 
 ### Installation
 
-- ⚠️ Pip installation coming soon
+>[!WARNING]
+> pip installation coming soon
 
 1. Clone this repo
 ```
